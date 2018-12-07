@@ -9,10 +9,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
 
  <?import View.MazeDisplayer?> 
 
-<BorderPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
+<BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
