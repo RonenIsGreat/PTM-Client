@@ -2,9 +2,12 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import Model.DataManager;
 import View.MazeDisplayer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 
 public class MainWindowController implements Initializable{
 	
@@ -29,6 +32,7 @@ public class MainWindowController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		mazeDisplayer.setMazeData(mazeData);
+	}
 		
 	public void openLevel() {
 		DataManager dm = new DataManager();
