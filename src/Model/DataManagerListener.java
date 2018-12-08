@@ -1,7 +1,7 @@
 package Model;
 
 public interface DataManagerListener {
-	void levelLoaded();
+	void levelLoaded(LevelInfo levelInfo);
 	void levelSaved();
 	void levelSolved();
 	void resultSaved();
