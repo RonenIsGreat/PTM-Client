@@ -1,9 +1,11 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LevelInfo {	
+public class LevelInfo implements Serializable{	
+	private static final long serialVersionUID = 1L;
 	char[][] pipeGameBoard;
 	int numberOfSteps;
 	int timeInSeconds;

@@ -37,7 +37,7 @@ public class DataManager {
 	public void saveLocalLevel(File file, LevelInfo levelInfo) {
 		try {
 		    if(file != null) {
-		    	localFileManager.saveLevelInfo(levelInfo);
+		    	localFileManager.saveLevelInfo(file, levelInfo);
 				
 				// Notify everybody that may be interested.
 		        for (DataManagerListener dml : listeners)
