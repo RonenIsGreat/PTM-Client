@@ -2,6 +2,8 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import Model.DataManager;
 import Model.DataManagerListener;
@@ -13,6 +15,7 @@ import javafx.scene.Node;
 
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
+	private ExecutorService executor;
 	
 	int[][] mazeData= {
 			{1,1,1,1,1,1},	
@@ -36,10 +39,16 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		mazeDisplayer.setMazeData(mazeData);
 		dataManager = new DataManager();
 		dataManager.addListener(this);
+		executor = Executors.newCachedThreadPool();
 	}
 		
 	public void openLevel() {
-		dataManager.loadLocalLevel(borderPane.getScene().getWindow());
+		executor.execute(new Runnable() {
+		    @Override 
+		    public void run() {
+				dataManager.loadLocalLevel(borderPane.getScene().getWindow());
+		    }
+		});
 	}
 	
 	public void solveLevel() {
@@ -52,7 +61,13 @@ public class MainWindowController implements Initializable, DataManagerListener{
 				{' ',' ',' ',' '},
 		};
 		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
-		dataManager.solveLevel(host, port, levelInfo);
+		
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+		    @Override 
+		    public void run() {
+				dataManager.solveLevel(host, port, levelInfo);
+		    }
+		});
 	}
 
 	@Override
