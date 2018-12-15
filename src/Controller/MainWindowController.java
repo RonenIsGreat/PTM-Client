@@ -10,11 +10,16 @@ import Model.DataManager;
 import Model.DataManagerListener;
 import Model.LevelInfo;
 import View.MazeDisplayer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
@@ -30,6 +35,20 @@ public class MainWindowController implements Initializable, DataManagerListener{
 			{1,1,1,0,0,1},
 			{1,1,1,1,1,1},
 	};
+   
+	@FXML
+    void newPage(ActionEvent event) {
+	   	try {
+    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/SecondWindow.fxml"));
+    		Parent root1= (Parent) fxmlLoader.load();
+    		Stage stage=new Stage();
+    		stage.setTitle("Second Window");
+    		stage.setScene(new Scene(root1));
+    		stage.show();
+    	}catch(Exception e){
+    		System.out.println("cant load new window");
+    	}
+    }
 	
 	@FXML
 	MazeDisplayer mazeDisplayer;
