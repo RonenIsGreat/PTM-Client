@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -12,6 +13,8 @@ import View.MazeDisplayer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
@@ -43,15 +46,49 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	}
 		
 	public void openLevel() {
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open pipe game file");
+		ExtensionFilter extFiler = new ExtensionFilter("Levels", "*.lvl");
+		chooser.getExtensionFilters().add(extFiler);
+		chooser.setInitialDirectory(new File("./Resources"));
+		File selectedFile = chooser.showOpenDialog(borderPane.getScene().getWindow());
+		
 		executor.execute(new Runnable() {
 		    @Override 
 		    public void run() {
-				dataManager.loadLocalLevel(borderPane.getScene().getWindow());
+				dataManager.loadLocalLevel(selectedFile);
+		    }
+		});
+	}
+	
+	public void saveLevel() {
+		FileChooser chooser = new FileChooser();
+	    chooser.setTitle("Save pipe game level");
+	    FileChooser.ExtensionFilter extFiler = new ExtensionFilter("Levels", "*.lvl");
+	    chooser.getExtensionFilters().add(extFiler);
+	    chooser.setInitialDirectory(new File("./Resources"));
+	    File file = chooser.showSaveDialog(borderPane.getScene().getWindow());
+	    
+	    // Example of level info to save
+		char[][] pipe= {
+				{'s','|','|','g'},	
+				{' ',' ',' ',' '},	
+				{' ',' ',' ',' '},	
+				{' ',' ',' ',' '},
+		};
+		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
+	    // --------------------------------------------------
+		
+	    executor.execute(new Runnable() {
+		    @Override 
+		    public void run() {
+				dataManager.saveLocalLevel(file, levelInfo);
 		    }
 		});
 	}
 	
 	public void solveLevel() {
+		// Example of level info to solve
 		String host = "localhost";
 		int port = 6400;
 		char[][] pipe= {
@@ -61,6 +98,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 				{' ',' ',' ',' '},
 		};
 		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
+		// --------------------------------------------------
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 

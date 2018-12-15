@@ -4,10 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
-
 public class DataManager {
 	private List<DataManagerListener> listeners = new ArrayList<DataManagerListener>();
 	private LocalFileManager localFileManager;
@@ -22,17 +18,10 @@ public class DataManager {
         listeners.add(toAdd);
     }
 	
-	public void loadLocalLevel(Window parentWindow) {
+	public void loadLocalLevel(File file) {
 		try {
-			FileChooser chooser = new FileChooser();
-			chooser.setTitle("Open pipe game file");
-			ExtensionFilter extFiler = new ExtensionFilter("Levels", "*.lvl");
-			chooser.setSelectedExtensionFilter(extFiler);
-			chooser.setInitialDirectory(new File("./Resources"));
-			File selectedFile = chooser.showOpenDialog(parentWindow);
-			
-			if(selectedFile != null) {
-				LevelInfo levelInfo = localFileManager.getLevelInfo(selectedFile);
+			if(file != null) {
+				LevelInfo levelInfo = localFileManager.getLevelInfo(file);
 				
 				// Notify everybody that may be interested.
 		        for (DataManagerListener dml : listeners)
@@ -45,13 +34,15 @@ public class DataManager {
 		}
 	}
 	
-	public void saveLocalLevel(LevelInfo levelInfo) {
+	public void saveLocalLevel(File file, LevelInfo levelInfo) {
 		try {
-			localFileManager.saveLevelInfo(levelInfo);
-			
-			// Notify everybody that may be interested.
-	        for (DataManagerListener dml : listeners)
-	        	dml.levelSaved();
+		    if(file != null) {
+		    	localFileManager.saveLevelInfo(levelInfo);
+				
+				// Notify everybody that may be interested.
+		        for (DataManagerListener dml : listeners)
+		        	dml.levelSaved();
+		    }
 		} catch (Exception e) {
 			// Notify about the error
 			for (DataManagerListener dml : listeners)
