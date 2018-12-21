@@ -64,11 +64,28 @@ public class DataManager {
 		}
 	}
 	
-	public void saveResult(LevelInfo levelInfo) {
-		// TODO
-		
-		// Notify everybody that may be interested.
-        for (DataManagerListener dml : listeners)
-        	dml.resultSaved();
+	public void saveResult(String host, int port, LevelInfo levelInfo) {
+		try {
+			String[] solutionMoves = solveServer.getLevelSolutionMoves(host, port, levelInfo);
+			
+			// Level isn't solved, dont save relust in the server
+			if(solutionMoves.length > 0) {
+				String message = "";
+				
+				for (DataManagerListener dml : listeners)
+		        	dml.errorOccurred(message);
+				
+			} else {
+				solveServer.saveResult(host, port, levelInfo);
+				
+				// Notify everybody that may be interested.
+		        for (DataManagerListener dml : listeners)
+		        	dml.resultSaved();
+			}			
+		} catch (Exception e) {
+			// Notify about the error
+			for (DataManagerListener dml : listeners)
+	        	dml.errorOccurred(e.getMessage());
+		}
 	}
 }

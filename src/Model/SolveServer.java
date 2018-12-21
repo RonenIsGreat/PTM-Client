@@ -22,6 +22,10 @@ public class SolveServer {
 		return getSolution(socket);
 	}
 	
+	public void saveResult(String host, int port, LevelInfo levelInfo) {
+		// TODO
+	}
+	
 	private void sendBoardToSolve(Socket socket, LevelInfo levelInfo) throws IOException {
 		PrintWriter output = new PrintWriter(socket.getOutputStream());
 		
