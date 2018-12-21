@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import Model.DataManager;
 import Model.DataManagerListener;
 import Model.LevelInfo;
-import View.MazeDisplayer;
+import View.PipeDisplayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,20 +24,17 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
-	
-	int[][] mazeData= {
-			{1,1,1,1,1,1},	
-			{0,0,0,0,0,1},	
-			{1,1,1,0,0,1},	
-			{1,0,1,0,0,1},	
-			{1,0,1,0,0,1},	
-			{1,1,1,1,0,1},
-			{1,1,1,0,0,1},
-			{1,1,1,1,1,1},
+
+	// Example of level info to save
+	char[][] pipe= {
+			{'s','|','|','g'},	
+			{' ',' ',' ',' '},	
+			{'-',' ','7',' '},	
+			{' ','j',' ',' '},
 	};
    
 	@FXML
-    void newPage(ActionEvent event) {
+	void newPage(ActionEvent event) {
 	   	try {
     		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/SecondWindow.fxml"));
     		Parent root1= (Parent) fxmlLoader.load();
@@ -51,14 +48,14 @@ public class MainWindowController implements Initializable, DataManagerListener{
     }
 	
 	@FXML
-	MazeDisplayer mazeDisplayer;
+	PipeDisplayer pipeDisplayer;
 	
     @FXML
 	Node borderPane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		mazeDisplayer.setMazeData(mazeData);
+		pipeDisplayer.setPipeData(pipe);
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
@@ -141,12 +138,6 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
 	@Override
 	public void levelSolved(String[] solution) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resultSaved() {
 		// TODO Auto-generated method stub
 		
 	}

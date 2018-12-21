@@ -5,5 +5,4 @@ public interface DataManagerListener {
 	void levelSaved();
 	void levelSolved(String[] solution);
 	void errorOccurred(String errorMessage);
-	void resultSaved();
 }
