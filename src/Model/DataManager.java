@@ -63,4 +63,12 @@ public class DataManager {
 	        	dml.errorOccurred(e.getMessage());
 		}
 	}
+	
+	public void saveResult(LevelInfo levelInfo) {
+		// TODO
+		
+		// Notify everybody that may be interested.
+        for (DataManagerListener dml : listeners)
+        	dml.resultSaved();
+	}
 }
