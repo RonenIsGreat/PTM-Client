@@ -25,7 +25,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
 
-	// Example of level info to save
+	// Example of pipe board
 	char[][] pipe= {
 			{'s','|','|','g'},	
 			{' ',' ',' ',' '},	
@@ -86,12 +86,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	    File file = chooser.showSaveDialog(borderPane.getScene().getWindow());
 	    
 	    // Example of level info to save
-		char[][] pipe= {
-				{'s','|','|','g'},	
-				{' ',' ',' ',' '},	
-				{' ',' ',' ',' '},	
-				{' ',' ',' ',' '},
-		};
+		char[][] pipe= pipeDisplayer.getPipeData();
 		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
 	    // --------------------------------------------------
 		
@@ -107,12 +102,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		// Example of level info to solve
 		String host = "localhost";
 		int port = 6400;
-		char[][] pipe= {
-				{'s','|','|','g'},	
-				{' ',' ',' ',' '},	
-				{' ',' ',' ',' '},	
-				{' ',' ',' ',' '},
-		};
+		char[][] pipe= pipeDisplayer.getPipeData();
 		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
 		// --------------------------------------------------
 		

@@ -3,6 +3,8 @@ package View;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,7 +14,30 @@ import javafx.scene.transform.Rotate;
 
 public class PipeDisplayer extends Canvas{
 	
-	char[][] pipeBoardData;
+	private char[][] pipeBoardData;
+	private StringProperty leftToRightPipe;
+	private StringProperty leftToUpPipe;
+	
+	public PipeDisplayer() {
+		leftToRightPipe = new SimpleStringProperty();
+		leftToUpPipe = new SimpleStringProperty();
+	}
+	
+	public String getLeftToRightPipe() {
+		return leftToRightPipe.get();
+	}
+
+	public void setLeftToRightPipe(String leftToRightPipe) {
+		this.leftToRightPipe.set(leftToRightPipe);
+	}
+
+	public String getLeftToUpPipe() {
+		return leftToUpPipe.get();
+	}
+
+	public void setLeftToUpPipe(String leftToUpPipe) {
+		this.leftToUpPipe.set(leftToUpPipe);;
+	}
 	
 	public void setPipeData(char[][] pipeData) {
 		this.pipeBoardData = pipeData;
@@ -38,8 +63,10 @@ public class PipeDisplayer extends Canvas{
 			Image leftToUpPipe = null;
 			
 			try {
-				leftToRightPipe = new Image(new FileInputStream("./resources/-.png"));
-				leftToUpPipe = new Image(new FileInputStream("./resources/j.png"));
+				String leftToRightPipeImagePath = getLeftToRightPipe();
+				String leftToUpPipeImagePath = getLeftToUpPipe();
+				leftToRightPipe = new Image(new FileInputStream(leftToRightPipeImagePath));
+				leftToUpPipe = new Image(new FileInputStream(leftToUpPipeImagePath));
 			
 				// BackGround of canvas
 				gc.setFill(javafx.scene.paint.Color.GRAY);

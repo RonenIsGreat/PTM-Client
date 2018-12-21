@@ -37,7 +37,7 @@
       </HBox>
    </bottom>
    <center>
-<PipeDisplayer fx:id="pipeDisplayer" height="400.0" width="400.0" BorderPane.alignment="CENTER">
+<PipeDisplayer fx:id="pipeDisplayer" height="300.0" width="300.0" leftToRightPipe="./resources/-.png" leftToUpPipe="./resources/j.png" BorderPane.alignment="CENTER">
 
 <!-- <Canvas height="400.0" width="349.0" BorderPane.alignment="CENTER"> -->
           <BorderPane.margin>
