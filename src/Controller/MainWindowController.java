@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -54,6 +55,9 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	
     @FXML
 	Node borderPane;
+    
+    @FXML
+    Pane parentOfCanvas;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -62,9 +66,15 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
+		
+		// Mouse click even on the canvas
 		pipeDisplayer.setOnMouseClicked(event -> {
 			onMouseClick(event);
-	    });		
+	    });
+		
+		// Bind canvas size to stage size
+		pipeDisplayer.widthProperty().bind(parentOfCanvas.widthProperty());
+		pipeDisplayer.heightProperty().bind(parentOfCanvas.heightProperty());
 	}
 		
 	public void openLevel() {

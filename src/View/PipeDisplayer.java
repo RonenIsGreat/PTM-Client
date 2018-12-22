@@ -9,9 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.VPos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 
@@ -25,6 +28,8 @@ public class PipeDisplayer extends Canvas{
 	public PipeDisplayer() {
 		leftToRightPipe = new SimpleStringProperty();
 		leftToUpPipe = new SimpleStringProperty();
+		widthProperty().addListener(observable -> redraw());
+		heightProperty().addListener(observable -> redraw());
 	}
 	
 	public String getLeftToRightPipe() {
@@ -46,7 +51,7 @@ public class PipeDisplayer extends Canvas{
 	public void setPipeData(char[][] pipeData, int numberOfMoves) {
 		this.pipeBoardData = pipeData;
 		this.numberOfMoves = numberOfMoves;
-		redrew();
+		redraw();
 	}
 	
 	public char[][] getPipeData(){
@@ -57,7 +62,7 @@ public class PipeDisplayer extends Canvas{
 		return numberOfMoves;
 	}
 	
-	public void redrew(){
+	public void redraw(){
 		if(pipeBoardData !=null) {
 			double W=getWidth();
 			double H=getHeight();
@@ -158,15 +163,12 @@ public class PipeDisplayer extends Canvas{
 	}
 	
 	private void drawRotatedImage(GraphicsContext gc, Image image, double x, double y, double w, double h, double angle) {
-        gc.save(); // saves the current state on stack, including the current transform
-        rotateGraphicsContext(gc, angle, x + w / 2, y + h / 2);
-        gc.drawImage(image, x, y, w, h);
-        gc.restore(); // back to original state (before rotation)
-    }
-	
-	private void rotateGraphicsContext(GraphicsContext gc, double angle, double px, double py) {
-        Rotate r = new Rotate(angle, px, py);
-        gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+		ImageView iv = new ImageView(image);
+		iv.setRotate(angle);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		Image rotatedImage = iv.snapshot(params, null);
+    	gc.drawImage(rotatedImage, x, y, w, h);       
     }
 	
 	private void rotateCell(int row, int column) {
@@ -210,7 +212,12 @@ public class PipeDisplayer extends Canvas{
 		
 		if(isPipeRotated) {
 			numberOfMoves++;
-			redrew();
+			redraw();
 		}
 	}
+	
+	@Override
+    public boolean isResizable() {
+        return true;
+    }
 }
