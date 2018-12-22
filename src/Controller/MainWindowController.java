@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -54,7 +55,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	PipeDisplayer pipeDisplayer;
 	
     @FXML
-	Node borderPane;
+    BorderPane borderPane;
     
     @FXML
     Pane parentOfCanvas;
@@ -66,7 +67,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
-		
+
 		// Mouse click even on the canvas
 		pipeDisplayer.setOnMouseClicked(event -> {
 			onMouseClick(event);
