@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,6 +20,7 @@ public class PipeDisplayer extends Canvas{
 	private char[][] pipeBoardData;
 	private StringProperty leftToRightPipe;
 	private StringProperty leftToUpPipe;
+	private int numberOfMoves;
 	
 	public PipeDisplayer() {
 		leftToRightPipe = new SimpleStringProperty();
@@ -39,13 +43,18 @@ public class PipeDisplayer extends Canvas{
 		this.leftToUpPipe.set(leftToUpPipe);;
 	}
 	
-	public void setPipeData(char[][] pipeData) {
+	public void setPipeData(char[][] pipeData, int numberOfMoves) {
 		this.pipeBoardData = pipeData;
+		this.numberOfMoves = numberOfMoves;
 		redrew();
 	}
 	
 	public char[][] getPipeData(){
 		return pipeBoardData;
+	}
+	
+	public int getNumberOfMoves() {
+		return numberOfMoves;
 	}
 	
 	public void redrew(){
@@ -74,34 +83,61 @@ public class PipeDisplayer extends Canvas{
 				
 				for(int i=0;i<pipeBoardData.length;i++)
 					for(int j=0;j<pipeBoardData[i].length;j++) {
-						if(pipeBoardData[i][j]=='-'){
+						switch (pipeBoardData[i][j]) {
+						case '-':
+						{
 							double angle = 0;
 							drawRotatedImage(gc, leftToRightPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='|'){
+							break;
+						}
+						case '|':
+						{
 							double angle = 90;
 							drawRotatedImage(gc, leftToRightPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='J'){
+							break;
+						}
+						case 'J':
+						{
 							double angle = 0;
 							drawRotatedImage(gc, leftToUpPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='L'){
+							break;
+						}	
+						case 'L':
+						{
 							double angle = 90;
 							drawRotatedImage(gc, leftToUpPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='F'){
+							break;
+						}
+						case 'F':
+						{
 							double angle = 180;
 							drawRotatedImage(gc, leftToUpPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='7'){
+							break;
+						}	
+						case '7':
+						{
 							double angle = 270;
 							drawRotatedImage(gc, leftToUpPipe, j*w, i*h, w, h, angle);
-						}else if(pipeBoardData[i][j]=='s'){
+							break;
+						}	
+						case 's':
+						{
 							gc.setFill(javafx.scene.paint.Color.GREEN);
 							gc.fillOval(j*w, i*h, w, h);
 							gc.setFill(javafx.scene.paint.Color.BLACK);
 							gc.fillText("Start", j*w + w/2, i*h + h/2);
-						}else if(pipeBoardData[i][j]=='g'){
+							break;
+						}	
+						case 'g':
+						{
 							gc.setFill(javafx.scene.paint.Color.RED);
 							gc.fillOval(j*w, i*h, w, h);
 							gc.setFill(javafx.scene.paint.Color.BLACK);
 							gc.fillText("End", j*w + w/2, i*h + h/2);
+							break;
+						}	
+						default:
+							break;
 						}
 					}
 			} catch (FileNotFoundException e) {
@@ -111,15 +147,70 @@ public class PipeDisplayer extends Canvas{
 		}
 	}
 	
+	public void mouseClicked(double px, double py) {
+		double W=getWidth();
+		double H=getHeight();
+		double w =W / pipeBoardData[0].length;
+		double h =H / pipeBoardData.length;
+		int col = (int)(px/w);
+		int row = (int)(py/h);
+		rotateCell(row, col);
+	}
+	
 	private void drawRotatedImage(GraphicsContext gc, Image image, double x, double y, double w, double h, double angle) {
         gc.save(); // saves the current state on stack, including the current transform
-        rotate(gc, angle, x + w / 2, y + h / 2);
+        rotateGraphicsContext(gc, angle, x + w / 2, y + h / 2);
         gc.drawImage(image, x, y, w, h);
         gc.restore(); // back to original state (before rotation)
     }
 	
-	private void rotate(GraphicsContext gc, double angle, double px, double py) {
+	private void rotateGraphicsContext(GraphicsContext gc, double angle, double px, double py) {
         Rotate r = new Rotate(angle, px, py);
         gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
     }
+	
+	private void rotateCell(int row, int column) {
+		Boolean isPipeRotated = true;
+		
+		switch (pipeBoardData[row][column]) {
+		case '-':
+		{
+			pipeBoardData[row][column] = '|';
+			break;
+		}
+		case '|':
+		{
+			pipeBoardData[row][column] = '-';
+			break;
+		}
+		case 'J':
+		{
+			pipeBoardData[row][column] = 'L';
+			break;
+		}	
+		case 'L':
+		{
+			pipeBoardData[row][column] = 'F';
+			break;
+		}
+		case 'F':
+		{
+			pipeBoardData[row][column] = '7';
+			break;
+		}	
+		case '7':
+		{
+			pipeBoardData[row][column] = 'J';
+			break;
+		}	
+		default:
+			isPipeRotated = false;
+			break;
+		}
+		
+		if(isPipeRotated) {
+			numberOfMoves++;
+			redrew();
+		}
+	}
 }

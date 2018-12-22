@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
+	private int numberOfMoves;
 
 	// Example of pipe board
 	char[][] pipe= {
@@ -55,10 +57,14 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		pipeDisplayer.setPipeData(pipe);
+		numberOfMoves = 0;
+		pipeDisplayer.setPipeData(pipe, numberOfMoves);
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
+		pipeDisplayer.setOnMouseClicked(event -> {
+			onMouseClick(event);
+	    });		
 	}
 		
 	public void openLevel() {
@@ -112,6 +118,13 @@ public class MainWindowController implements Initializable, DataManagerListener{
 				dataManager.solveLevel(host, port, levelInfo);
 		    }
 		});
+	}
+	
+	private void onMouseClick(MouseEvent event) {
+        double px = event.getX();
+        double py = event.getY();
+        pipeDisplayer.mouseClicked(px, py);
+        numberOfMoves = pipeDisplayer.getNumberOfMoves();
 	}
 
 	@Override
