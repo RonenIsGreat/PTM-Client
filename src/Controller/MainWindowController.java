@@ -40,7 +40,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	@FXML
 	void newPage(ActionEvent event) {
 	   	try {
-    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/SecondWindow.fxml"));
+    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/ThemeWindow.fxml"));
     		Parent root1= (Parent) fxmlLoader.load();
     		Stage stage=new Stage();
     		stage.setTitle("Second Window");
@@ -50,6 +50,41 @@ public class MainWindowController implements Initializable, DataManagerListener{
     		System.out.println("cant load new window");
     	}
     }
+	
+
+    @FXML
+    void OnMessage(ActionEvent event) {
+
+    }
+
+    @FXML
+    void OnSettings(ActionEvent event) {
+
+    }
+
+    @FXML
+    void OnTheme(ActionEvent event) {
+	   	try {
+    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/ThemeWindow.fxml"));
+    		Parent root1= (Parent) fxmlLoader.load();
+    		Stage stage=new Stage();
+    		stage.setTitle("Theme Window");
+    		stage.setScene(new Scene(root1));
+    		stage.show();
+    	}catch(Exception e){
+    		System.out.println("cant load new window");
+    	}
+    }
+   
+
+    @FXML
+    void OnTimeSteps(ActionEvent event) {
+
+    }
+	
+	
+	
+	
 	
 	@FXML
 	PipeDisplayer pipeDisplayer;
