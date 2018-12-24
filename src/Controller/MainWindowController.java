@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -36,21 +37,6 @@ public class MainWindowController implements Initializable, DataManagerListener{
 			{'-',' ','7',' '},	
 			{' ','j',' ',' '},
 	};
-   
-	@FXML
-	void newPage(ActionEvent event) {
-	   	try {
-    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/ThemeWindow.fxml"));
-    		Parent root1= (Parent) fxmlLoader.load();
-    		Stage stage=new Stage();
-    		stage.setTitle("Second Window");
-    		stage.setScene(new Scene(root1));
-    		stage.show();
-    	}catch(Exception e){
-    		System.out.println("cant load new window");
-    	}
-    }
-	
 
     @FXML
     void OnMessage(ActionEvent event) {
@@ -70,18 +56,21 @@ public class MainWindowController implements Initializable, DataManagerListener{
     		Stage stage=new Stage();
     		stage.setTitle("Theme Window");
     		stage.setScene(new Scene(root1));
+    	//	ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
+    		//theme.playAudio1();
+    		
+    		ThemeWindowController.mainWindow = borderPane;
     		stage.show();
     	}catch(Exception e){
     		System.out.println("cant load new window");
     	}
     }
    
-
+    
     @FXML
     void OnTimeSteps(ActionEvent event) {
 
     }
-	
 	
 	
 	
