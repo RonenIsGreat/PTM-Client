@@ -10,6 +10,7 @@ import Model.DataManager;
 import Model.DataManagerListener;
 import Model.LevelInfo;
 import View.PipeDisplayer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -31,10 +33,10 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
 	// Example of pipe board
 	char[][] pipe= {
-			{'s','|','|','g'},	
-			{' ',' ',' ',' '},	
-			{'-',' ','7',' '},	
-			{' ','j',' ',' '},
+			{'s','|','J','g'},	
+			{' ','L','|','|'},	
+			{'-',' ','7','7'},	
+			{' ','J',' ',' '},
 	};
    
 	@FXML
@@ -140,14 +142,26 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
 	@Override
 	public void levelLoaded(LevelInfo levelInfo) {
-		// TODO Auto-generated method stub
-		
+		Platform.runLater(()->
+		{
+			pipeDisplayer.setPipeData(levelInfo.getPipeGameBoard(), levelInfo.getNumberOfSteps());
+			
+			Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+			errorAlert.setHeaderText("Level have been loaded.");
+			errorAlert.setContentText("Click OK to continue");
+			errorAlert.showAndWait();
+		});
 	}
 
 	@Override
 	public void levelSaved() {
-		// TODO Auto-generated method stub
-		
+		Platform.runLater(()->
+		{
+			Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+			errorAlert.setHeaderText("Level have been saved.");
+			errorAlert.setContentText("Click OK to continue");
+			errorAlert.showAndWait();
+		});
 	}
 
 	@Override
@@ -158,7 +172,12 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
 	@Override
 	public void errorOccurred(String errorMessage) {
-		// TODO Auto-generated method stub
-		
+		Platform.runLater(()->
+		{
+			Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+			errorAlert.setHeaderText("Error Occurred!");
+			errorAlert.setContentText(errorMessage);
+			errorAlert.showAndWait();
+		});
 	}
 }

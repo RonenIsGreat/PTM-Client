@@ -22,7 +22,7 @@ public class DataManager {
 		try {
 			if(file != null) {
 				LevelInfo levelInfo = localFileManager.getLevelInfo(file);
-				
+
 				// Notify everybody that may be interested.
 		        for (DataManagerListener dml : listeners)
 		        	dml.levelLoaded(levelInfo);

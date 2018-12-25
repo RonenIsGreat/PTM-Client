@@ -16,6 +16,14 @@ public class LevelInfo implements Serializable{
 		this.timeInSeconds = timeInSeconds;
 	}
 	
+	public char[][] getPipeGameBoard(){
+		return pipeGameBoard;
+	}
+	
+	public int getNumberOfSteps() {
+		return numberOfSteps;
+	}
+	
 	public String[] getBoardLines(){
 		List<String> boardLines = new ArrayList<String>();
 		
