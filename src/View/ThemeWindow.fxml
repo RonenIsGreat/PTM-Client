@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ThemeWindowController">
+   <children>
+      <MenuButton layoutX="151.0" layoutY="102.0" mnemonicParsing="false" text="Choose Theme">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#OnTheme1" text="Theme 1" />
+          <MenuItem mnemonicParsing="false" onAction="#OnTheme2" text="Theme 2" />
+        </items>
+      </MenuButton>
+   </children>
+</Pane>
