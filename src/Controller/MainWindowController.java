@@ -189,9 +189,28 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	}
 
 	@Override
-	public void levelSolved(String[] solution) {
-		// TODO Auto-generated method stub
-		
+	public void levelSolved(String[] solutionMoves) {
+		for (String move : solutionMoves) {
+			String[] splittedMove = move.split(",");
+			int row = Integer.parseInt(splittedMove[0]);
+			int column = Integer.parseInt(splittedMove[1]);
+			int rotateNumber = Integer.parseInt(splittedMove[2]);
+			
+			for (int i = 0; i < rotateNumber; i++) {
+				Platform.runLater(()->
+				{
+					pipeDisplayer.rotateCell(row, column);;
+				});
+				
+				try {
+					int delayForRotations = 750;
+					Thread.sleep(delayForRotations);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

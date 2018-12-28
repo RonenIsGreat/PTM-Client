@@ -162,16 +162,7 @@ public class PipeDisplayer extends Canvas{
 		rotateCell(row, col);
 	}
 	
-	private void drawRotatedImage(GraphicsContext gc, Image image, double x, double y, double w, double h, double angle) {
-		ImageView iv = new ImageView(image);
-		iv.setRotate(angle);
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		Image rotatedImage = iv.snapshot(params, null);
-    	gc.drawImage(rotatedImage, x, y, w, h);       
-    }
-	
-	private void rotateCell(int row, int column) {
+	public void rotateCell(int row, int column) {
 		Boolean isPipeRotated = true;
 		
 		switch (pipeBoardData[row][column]) {
@@ -211,7 +202,7 @@ public class PipeDisplayer extends Canvas{
 		}
 		
 		if(isPipeRotated) {
-			numberOfMoves++;
+			numberOfMoves ++;
 			redraw();
 		}
 	}
@@ -219,5 +210,14 @@ public class PipeDisplayer extends Canvas{
 	@Override
     public boolean isResizable() {
         return true;
+    }
+	
+	private void drawRotatedImage(GraphicsContext gc, Image image, double x, double y, double w, double h, double angle) {
+		ImageView iv = new ImageView(image);
+		iv.setRotate(angle);
+		SnapshotParameters params = new SnapshotParameters();
+		params.setFill(Color.TRANSPARENT);
+		Image rotatedImage = iv.snapshot(params, null);
+    	gc.drawImage(rotatedImage, x, y, w, h);       
     }
 }
