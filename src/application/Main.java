@@ -32,7 +32,7 @@ public class Main extends Application {
 			pStage= primaryStage;
 			
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("../View/MainWindow.fxml"));
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,500,500);
 			scene.getStylesheets().add(getClass().getResource("../View/application.css").toExternalForm());
 			//ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
 			//playAudio1();

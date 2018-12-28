@@ -11,6 +11,7 @@ import Model.DataManagerListener;
 import Model.LevelInfo;
 import View.PipeDisplayer;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -31,6 +33,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
 	private int numberOfMoves;
+	private int timeInSeconds;
 
 	// Example of pipe board
 	char[][] pipe= {
@@ -74,9 +77,6 @@ public class MainWindowController implements Initializable, DataManagerListener{
 
     }
 	
-	
-	
-	
 	@FXML
 	PipeDisplayer pipeDisplayer;
 	
@@ -85,6 +85,12 @@ public class MainWindowController implements Initializable, DataManagerListener{
     
     @FXML
     Pane parentOfCanvas;
+    
+	@FXML
+	TextField serverIPTextField;
+	
+	@FXML
+	TextField serverPortNumberTextField;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -142,12 +148,10 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	}
 	
 	public void solveLevel() {
-		// Example of level info to solve
-		String host = "localhost";
-		int port = 6400;
+		String host = serverIPTextField.getText();
+		int port = Integer.parseInt(serverPortNumberTextField.getText());
 		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
-		// --------------------------------------------------
+		LevelInfo levelInfo = new LevelInfo(pipe, numberOfMoves, timeInSeconds);
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
