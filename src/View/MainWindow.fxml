@@ -23,8 +23,8 @@
    <left>
       <VBox spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Start" />
-            <Button mnemonicParsing="false" text="Stop" />
+            <Button fx:id="startButton" mnemonicParsing="false" text="Start" onAction="#start"/>
+            <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" onAction="#stop"/>
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

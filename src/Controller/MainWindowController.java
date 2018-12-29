@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import Model.DataManager;
 import Model.DataManagerListener;
 import Model.LevelInfo;
+import Model.TimerService;
 import View.PipeDisplayer;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -23,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -35,8 +37,6 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
-	private IntegerProperty numberOfMoves;
-	private IntegerProperty timeInSeconds;
 
 	// Example of pipe board
 	char[][] pipe= {
@@ -100,20 +100,19 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	
 	@FXML
 	Label stepsNumberLabel;
+	
+	@FXML
+	Button startButton;
+	
+	@FXML
+	Button stopButton;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		numberOfMoves = new SimpleIntegerProperty();
-		timeInSeconds = new SimpleIntegerProperty();
-		pipeDisplayer.setPipeData(pipe, numberOfMoves.get());
+		pipeDisplayer.setPipeData(pipe, 0);
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
-
-		// Mouse click even on the canvas
-		pipeDisplayer.setOnMouseClicked(event -> {
-			onMouseClick(event);
-	    });
 		
 		// Bind canvas size to stage size
 		pipeDisplayer.widthProperty().bind(parentOfCanvas.widthProperty());
@@ -121,6 +120,8 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		
 		// Bind the steps from the pipe board to the display label
 		stepsNumberLabel.textProperty().bind(pipeDisplayer.getNumberOfMovesProperty());
+		
+		stopButton.setDisable(true);
 	}
 		
 	public void openLevel() {
@@ -164,7 +165,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		String host = serverIPTextField.getText();
 		int port = Integer.parseInt(serverPortNumberTextField.getText());
 		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe, numberOfMoves.get(), timeInSeconds.get());
+		LevelInfo levelInfo = new LevelInfo(pipe, 0, 0);
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
@@ -172,6 +173,28 @@ public class MainWindowController implements Initializable, DataManagerListener{
 				dataManager.solveLevel(host, port, levelInfo);
 		    }
 		});
+	}
+	
+	public void start() {
+		dataManager.start();
+		
+		// Mouse click event on the canvas
+		pipeDisplayer.setOnMouseClicked(event -> {
+			onMouseClick(event);
+	    });
+		
+		startButton.setDisable(true);
+		stopButton.setDisable(false);
+	}
+	
+	public void stop() {
+		dataManager.stop();
+		
+		// Stop the click event on the canvas
+		pipeDisplayer.setOnMouseClicked(null);
+		
+		stopButton.setDisable(true);
+		startButton.setDisable(false);
 	}
 	
 	private void onMouseClick(MouseEvent event) {
@@ -237,6 +260,14 @@ public class MainWindowController implements Initializable, DataManagerListener{
 			errorAlert.setHeaderText("Error Occurred!");
 			errorAlert.setContentText(errorMessage);
 			errorAlert.showAndWait();
+		});
+	}
+
+	@Override
+	public void timeUpdated(int timeInSeconds) {
+		Platform.runLater(()->
+		{
+			timeNumberLabel.setText(Integer.toString(timeInSeconds));
 		});
 	}
 }

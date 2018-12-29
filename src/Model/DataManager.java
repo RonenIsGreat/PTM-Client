@@ -8,10 +8,12 @@ public class DataManager {
 	private List<DataManagerListener> listeners = new ArrayList<DataManagerListener>();
 	private LocalFileManager localFileManager;
 	private SolveServer solveServer;
+	private TimerService timerService;
 	
 	public DataManager() {
 		localFileManager = new LocalFileManager();
 		solveServer = new SolveServer();
+		timerService = new TimerService(listeners);
 	}
 	
 	public void addListener(DataManagerListener toAdd) {
@@ -62,5 +64,13 @@ public class DataManager {
 			for (DataManagerListener dml : listeners)
 	        	dml.errorOccurred(e.getMessage());
 		}
+	}
+	
+	public void start() {
+		timerService.start();
+	}
+	
+	public void stop() {
+		timerService.stop();
 	}
 }
