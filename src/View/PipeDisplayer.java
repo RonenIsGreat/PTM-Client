@@ -3,6 +3,8 @@ package View;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -19,15 +21,18 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 
 public class PipeDisplayer extends Canvas{
-	
+		
 	private char[][] pipeBoardData;
 	private StringProperty leftToRightPipe;
 	private StringProperty leftToUpPipe;
+	private StringProperty numberOfMovesProperty;
 	private int numberOfMoves;
+
 	
 	public PipeDisplayer() {
 		leftToRightPipe = new SimpleStringProperty();
 		leftToUpPipe = new SimpleStringProperty();
+		numberOfMovesProperty = new SimpleStringProperty();
 		widthProperty().addListener(observable -> redraw());
 		heightProperty().addListener(observable -> redraw());
 	}
@@ -51,15 +56,12 @@ public class PipeDisplayer extends Canvas{
 	public void setPipeData(char[][] pipeData, int numberOfMoves) {
 		this.pipeBoardData = pipeData;
 		this.numberOfMoves = numberOfMoves;
+		this.numberOfMovesProperty.set(Integer.toString(numberOfMoves));
 		redraw();
 	}
 	
 	public char[][] getPipeData(){
 		return pipeBoardData;
-	}
-	
-	public int getNumberOfMoves() {
-		return numberOfMoves;
 	}
 	
 	public void redraw(){
@@ -152,6 +154,10 @@ public class PipeDisplayer extends Canvas{
 		}
 	}
 	
+	public StringProperty getNumberOfMovesProperty() {
+		return numberOfMovesProperty;
+	}
+	
 	public void mouseClicked(double px, double py) {
 		double W=getWidth();
 		double H=getHeight();
@@ -202,7 +208,8 @@ public class PipeDisplayer extends Canvas{
 		}
 		
 		if(isPipeRotated) {
-			numberOfMoves ++;
+			numberOfMoves++;
+			numberOfMovesProperty.set(Integer.toString(numberOfMoves));
 			redraw();
 		}
 	}

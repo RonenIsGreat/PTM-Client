@@ -11,7 +11,10 @@ import Model.DataManagerListener;
 import Model.LevelInfo;
 import View.PipeDisplayer;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,8 +35,8 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
-	private int numberOfMoves;
-	private int timeInSeconds;
+	private IntegerProperty numberOfMoves;
+	private IntegerProperty timeInSeconds;
 
 	// Example of pipe board
 	char[][] pipe= {
@@ -91,11 +94,18 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	
 	@FXML
 	TextField serverPortNumberTextField;
+	
+	@FXML
+	Label timeNumberLabel;
+	
+	@FXML
+	Label stepsNumberLabel;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		numberOfMoves = 0;
-		pipeDisplayer.setPipeData(pipe, numberOfMoves);
+		numberOfMoves = new SimpleIntegerProperty();
+		timeInSeconds = new SimpleIntegerProperty();
+		pipeDisplayer.setPipeData(pipe, numberOfMoves.get());
 		dataManager = new DataManager();
 		dataManager.addListener(this);
 		executor = Executors.newCachedThreadPool();
@@ -108,6 +118,9 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		// Bind canvas size to stage size
 		pipeDisplayer.widthProperty().bind(parentOfCanvas.widthProperty());
 		pipeDisplayer.heightProperty().bind(parentOfCanvas.heightProperty());
+		
+		// Bind the steps from the pipe board to the display label
+		stepsNumberLabel.textProperty().bind(pipeDisplayer.getNumberOfMovesProperty());
 	}
 		
 	public void openLevel() {
@@ -151,7 +164,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		String host = serverIPTextField.getText();
 		int port = Integer.parseInt(serverPortNumberTextField.getText());
 		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe, numberOfMoves, timeInSeconds);
+		LevelInfo levelInfo = new LevelInfo(pipe, numberOfMoves.get(), timeInSeconds.get());
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
@@ -165,7 +178,6 @@ public class MainWindowController implements Initializable, DataManagerListener{
         double px = event.getX();
         double py = event.getY();
         pipeDisplayer.mouseClicked(px, py);
-        numberOfMoves = pipeDisplayer.getNumberOfMoves();
 	}
 
 	@Override

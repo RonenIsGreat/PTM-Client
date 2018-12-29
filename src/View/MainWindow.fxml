@@ -18,6 +18,7 @@
 
  <?import View.PipeDisplayer?>
 
+
 <BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <left>
       <VBox spacing="5.0" BorderPane.alignment="CENTER">
@@ -38,7 +39,7 @@
                   <Insets bottom="10.0" left="16.0" right="4.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="serverIPTextField" promptText="The IP of the server" text="127.0.0.1" >
+            <TextField fx:id="serverIPTextField" promptText="The IP of the server" text="127.0.0.1">
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
@@ -48,7 +49,7 @@
                   <Insets bottom="10.0" left="16.0" right="4.0" top="10.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="serverPortNumberTextField" promptText="Port number" text="6400" >
+            <TextField fx:id="serverPortNumberTextField" promptText="Port number" text="6400">
                <HBox.margin>
                   <Insets top="5.0" />
                </HBox.margin>
@@ -61,16 +62,6 @@
          </children>
       </HBox>
    </bottom>
-   <top>
-      <MenuButton mnemonicParsing="false" text="Menu" BorderPane.alignment="CENTER_LEFT">
-        <items>
-          <MenuItem mnemonicParsing="false" onAction="#OnSettings" text="Settings" />
-          <MenuItem mnemonicParsing="false" onAction="#OnTimeSteps" text="Time &amp; Steps" />
-            <MenuItem mnemonicParsing="false" onAction="#OnMessage" text="Message" />
-            <MenuItem mnemonicParsing="false" onAction="#OnTheme" text="Theme" />
-        </items>
-      </MenuButton>
-   </top>
    <center>
       <Pane fx:id="parentOfCanvas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -82,4 +73,38 @@
          </children>
       </Pane>
    </center>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuButton mnemonicParsing="false" text="Menu">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#OnSettings" text="Settings" />
+                <MenuItem mnemonicParsing="false" onAction="#OnTimeSteps" text="Time &amp; Steps" />
+                  <MenuItem mnemonicParsing="false" onAction="#OnMessage" text="Message" />
+                  <MenuItem mnemonicParsing="false" onAction="#OnTheme" text="Theme" />
+              </items>
+            </MenuButton>
+            <Label text="Time:">
+               <HBox.margin>
+                  <Insets left="100.0" top="4.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="timeNumberLabel" layoutX="73.0" layoutY="10.0" text="0">
+               <HBox.margin>
+                  <Insets left="4.0" top="4.0" />
+               </HBox.margin>
+            </Label>
+            <Label layoutX="101.0" layoutY="10.0" text="Steps Number:">
+               <HBox.margin>
+                  <Insets left="24.0" top="4.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="stepsNumberLabel" layoutX="129.0" layoutY="10.0" text="0">
+               <HBox.margin>
+                  <Insets left="4.0" top="4.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
