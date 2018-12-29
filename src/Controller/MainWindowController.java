@@ -148,10 +148,10 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	    chooser.setInitialDirectory(new File("./Resources"));
 	    File file = chooser.showSaveDialog(borderPane.getScene().getWindow());
 	    
-	    // Example of level info to save
 		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe, 0, 10);
-	    // --------------------------------------------------
+		LevelInfo levelInfo = new LevelInfo(pipe, 
+											Integer.parseInt(stepsNumberLabel.getText()),
+											Integer.parseInt(timeNumberLabel.getText()));
 		
 	    executor.execute(new Runnable() {
 		    @Override 
@@ -165,7 +165,9 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		String host = serverIPTextField.getText();
 		int port = Integer.parseInt(serverPortNumberTextField.getText());
 		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe, 0, 0);
+		LevelInfo levelInfo = new LevelInfo(pipe,  
+											Integer.parseInt(stepsNumberLabel.getText()),
+											Integer.parseInt(timeNumberLabel.getText()));
 		
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 		    @Override 
