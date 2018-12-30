@@ -15,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 	private static Stage pStage;
 
-
 	
 	public static Stage getPrimaryStage() {
 		return pStage;
@@ -34,11 +33,15 @@ public class Main extends Application {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("../View/MainWindow.fxml"));
 			Scene scene = new Scene(root,500,500);
 			scene.getStylesheets().add(getClass().getResource("../View/application.css").toExternalForm());
-			//ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
-			//playAudio1();
-			root.setStyle("-fx-base: rgba(60, 60, 60, 255);");
+
+			root.setStyle("-fx-base: rgba(100, 0, 0, 255);");
 			primaryStage.setScene(scene);
+			
 			primaryStage.show();
+			
+			ThemeWindowController theme =new ThemeWindowController();
+			theme.playAudio1();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			

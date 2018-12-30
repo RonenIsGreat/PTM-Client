@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 public class MainWindowController implements Initializable, DataManagerListener{
 	private DataManager dataManager;
 	private ExecutorService executor;
+	
 
 	// Example of pipe board
 	char[][] pipe= {
@@ -64,11 +65,12 @@ public class MainWindowController implements Initializable, DataManagerListener{
     		Stage stage=new Stage();
     		stage.setTitle("Theme Window");
     		stage.setScene(new Scene(root1));
-    	//	ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
-    		//theme.playAudio1();
-    		
-    		ThemeWindowController.mainWindow = borderPane;
+    	//ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
+    	//theme.playAudio1();
+    	//ThemeWindowController.mainWindow = borderPane;
+    	
     		stage.show();
+    		ThemeWindowController.mainWindow = borderPane;
     	}catch(Exception e){
     		System.out.println("cant load new window");
     	}

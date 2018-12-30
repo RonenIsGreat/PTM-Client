@@ -16,8 +16,8 @@ import application.Main;
 public class ThemeWindowController {
 	
 	public static BorderPane mainWindow;
-	AudioClip note1;
-	AudioClip note2;
+	static AudioClip note1;
+	static AudioClip note2;
 	
     @FXML
     void OnTheme1(ActionEvent event) {
@@ -46,15 +46,25 @@ public class ThemeWindowController {
     
 
     
-	public void playAudio1() {
-		note1= new AudioClip(this.getClass().getResource("Lounge Game2.wav").toString());
+    static public void playAudio1() {
+		
+		note1= new AudioClip(new ThemeWindowController().getClass().getResource("Lounge Game2.wav").toString());
+		if (note1 != null) {
+			note1.stop();
+		}
 			note1.play();
 			note2.stop();
+			
 		}
-	public void playAudio2() {
-		note2= new AudioClip(this.getClass().getResource("Off Limits.wav").toString());
+	static	public void playAudio2() {
+		
+		note2= new AudioClip(new ThemeWindowController().getClass().getResource("Off Limits.wav").toString());
+		if (note2 != null) {
+			note2.stop();
+		}
 		note2.play();
 		note1.stop();
+		
 	}
 
 	public void setMainWindow(BorderPane borderPane) {
