@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane fx:id="timeNumberLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TimeStepsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TimeStepsController">
    <children>
       <Label layoutX="53.0" layoutY="72.0" text="Time:" />
       <Label layoutX="53.0" layoutY="112.0" text="Steps:" />
-      <Label layoutX="122.0" layoutY="72.0" text="0" />
+      <Label fx:id="timeNumberLabel" layoutX="122.0" layoutY="72.0" text="0" />
       <Label fx:id="stepsNumberLabel" layoutX="122.0" layoutY="112.0" text="0" />
    </children>
 </Pane>

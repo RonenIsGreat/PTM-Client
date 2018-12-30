@@ -76,10 +76,10 @@ public class MainWindowController implements Initializable, DataManagerListener{
     		Stage stage=new Stage();
     		stage.setTitle("Time and Steps Window");
     		stage.setScene(new Scene(root1));
-    	
-    	TimeStepsController.mainWindow = borderPane;
-    	
-    	
+    		TimeStepsController controller = (TimeStepsController)fxmlLoader.getController();
+    		controller.getStepsNumberLabelProperty().bind(pipeDisplayer.getNumberOfMovesProperty());
+    		controller.getTimeNumberLabelProperty().bind(timeNumberLabel.textProperty());
+    		TimeStepsController.mainWindow = borderPane;
     	
     		stage.show();
     		
