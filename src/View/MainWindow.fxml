@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -19,7 +15,7 @@
  <?import View.PipeDisplayer?>
 
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <left>
       <VBox spacing="5.0" BorderPane.alignment="CENTER">
          <children>
@@ -70,10 +66,10 @@
       <Pane fx:id="parentOfCanvas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
 
-    		<PipeDisplayer fx:id="pipeDisplayer" height="400.0" width="350.0" leftToRightPipe="./resources/-.png" leftToUpPipe="./resources/j.png" BorderPane.alignment="CENTER"/>
-     	
-      		<!-- <Canvas height="400.0" width="350.0" />  -->
-      		
+		<PipeDisplayer fx:id="pipeDisplayer" height="400.0" width="350.0" leftToRightPipe="./resources/-.png" leftToUpPipe="./resources/j.png" BorderPane.alignment="CENTER"/>
+   	
+<!--  <Canvas height="400.0" width="350.0" /> 
+ -->      		
          </children>
       </Pane>
    </center>
@@ -89,11 +85,9 @@
                   <Insets />
                </HBox.margin>
             </MenuButton>
-            <MenuButton mnemonicParsing="false" text="Menu">
+            <MenuButton mnemonicParsing="false" text="Settings">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#OnSettings" text="Settings" />
                 <MenuItem mnemonicParsing="false" onAction="#OnTimeSteps" text="Time &amp; Steps" />
-                  <MenuItem mnemonicParsing="false" onAction="#OnMessage" text="Message" />
                   <MenuItem mnemonicParsing="false" onAction="#OnTheme" text="Theme" />
               </items>
                <HBox.margin>
