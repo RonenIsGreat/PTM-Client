@@ -18,12 +18,13 @@
 
  <?import View.PipeDisplayer?>
 
-<BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
+
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainWindowController">
    <left>
       <VBox spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" text="Start" />
-            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" text="Stop" />
+            <Button fx:id="startButton" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#start" text="Start" />
+            <Button fx:id="stopButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stop" text="Stop" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -58,6 +59,10 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#finished" text="Finished">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </bottom>
@@ -77,8 +82,8 @@
          <children>
             <MenuButton mnemonicParsing="false" text="File">
               <items>
-                <MenuItem mnemonicParsing="false" text="Load" onAction="#openLevel" />
-                <MenuItem mnemonicParsing="false" text="Save" onAction="#saveLevel" />
+                <MenuItem mnemonicParsing="false" onAction="#openLevel" text="Load" />
+                <MenuItem mnemonicParsing="false" onAction="#saveLevel" text="Save" />
               </items>
                <HBox.margin>
                   <Insets />

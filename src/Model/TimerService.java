@@ -9,37 +9,49 @@ public class TimerService {
 	private int timeInSeconds;
 	private Timer timer;
 	private List<DataManagerListener> listeners;
+	private boolean isRunning;
 	
 	public TimerService(List<DataManagerListener> listeners) {
 		timeInSeconds = 0;
 		this.listeners = listeners;
+		isRunning = false;
 	}
 
 	public void start() {
-		timer = new Timer();
+		if(!isRunning) {
+			isRunning = true;
+			timer = new Timer();
 		
-		TimerTask task = new TimerTask() {
-			public void run() {
-				timeInSeconds++;
-				
-				// Notify everybody that may be interested.
-		        for (DataManagerListener dml : listeners)
-		        	dml.timeUpdated(timeInSeconds);
-			}
-		};
-		
-		int delay = 1000;
-		int period = 1000;
-		timer.scheduleAtFixedRate(task, delay, period);
+			TimerTask task = new TimerTask() {
+				public void run() {				
+					// Notify everybody that may be interested.
+			        for (DataManagerListener dml : listeners)
+			        	dml.timeUpdated(timeInSeconds);
+			        
+					timeInSeconds++;
+				}
+			};
+			
+			int delay = 0;
+			int period = 1000;
+			timer.scheduleAtFixedRate(task, delay, period);
+		}
 	}
 	
 	public void stop() {
-		timeInSeconds = 0;
-		timer.cancel();
+		if(isRunning) {
+			isRunning = false;
+			timer.cancel();
+		}
+	}
+	
+	public void restartTimer(int startTime) {
+		if(isRunning) {
+			isRunning = false;
+			timer.cancel();
+		}
 		
-		// Notify everybody that may be interested.
-        for (DataManagerListener dml : listeners)
-        	dml.timeUpdated(timeInSeconds);
+		timeInSeconds = startTime;
 	}
 
 }

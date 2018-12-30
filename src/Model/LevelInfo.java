@@ -24,6 +24,10 @@ public class LevelInfo implements Serializable{
 		return numberOfSteps;
 	}
 	
+	public int getTimeInSeconds() {
+		return timeInSeconds;
+	}
+	
 	public String[] getBoardLines(){
 		List<String> boardLines = new ArrayList<String>();
 		

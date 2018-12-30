@@ -66,11 +66,34 @@ public class DataManager {
 		}
 	}
 	
-	public void start() {
+	public void startTimer() {
 		timerService.start();
 	}
 	
-	public void stop() {
+	public void stopTimer() {
 		timerService.stop();
+	}
+	
+	public void restartTimer(int startTime) {
+		timerService.restartTimer(startTime);
+	}
+
+	public void checkIfPlayerFinished(String host, int port, LevelInfo levelInfo) {
+		try {
+			String[] solutionMoves = solveServer.getLevelSolutionMoves(host, port, levelInfo);
+			boolean isFinished = false;
+			
+			if(solutionMoves == null || solutionMoves.length == 0) {
+				isFinished = true;
+			}
+			
+			// Notify everybody that may be interested.
+	        for (DataManagerListener dml : listeners)
+	        	dml.isLevelFinished(isFinished);
+		} catch (Exception e) {
+			// Notify about the error
+			for (DataManagerListener dml : listeners)
+	        	dml.errorOccurred(e.getMessage());
+		}
 	}
 }

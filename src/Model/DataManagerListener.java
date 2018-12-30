@@ -6,4 +6,5 @@ public interface DataManagerListener {
 	void levelSolved(String[] solution);
 	void errorOccurred(String errorMessage);
 	void timeUpdated(int timeInSeconds);
+	void isLevelFinished(boolean isFinished);
 }

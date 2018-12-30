@@ -164,8 +164,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	public void solveLevel() {
 		String host = serverIPTextField.getText();
 		int port = Integer.parseInt(serverPortNumberTextField.getText());
-		char[][] pipe= pipeDisplayer.getPipeData();
-		LevelInfo levelInfo = new LevelInfo(pipe,  
+		LevelInfo levelInfo = new LevelInfo(pipeDisplayer.getPipeData(),  
 											Integer.parseInt(stepsNumberLabel.getText()),
 											Integer.parseInt(timeNumberLabel.getText()));
 		
@@ -178,7 +177,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	}
 	
 	public void start() {
-		dataManager.start();
+		dataManager.startTimer();
 		
 		// Mouse click event on the canvas
 		pipeDisplayer.setOnMouseClicked(event -> {
@@ -190,13 +189,28 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	}
 	
 	public void stop() {
-		dataManager.stop();
+		dataManager.stopTimer();
 		
 		// Stop the click event on the canvas
 		pipeDisplayer.setOnMouseClicked(null);
 		
 		stopButton.setDisable(true);
 		startButton.setDisable(false);
+	}
+	
+	public void finished() {
+		String host = serverIPTextField.getText();
+		int port = Integer.parseInt(serverPortNumberTextField.getText());
+		LevelInfo levelInfo = new LevelInfo(pipeDisplayer.getPipeData(),  
+											Integer.parseInt(stepsNumberLabel.getText()),
+											Integer.parseInt(timeNumberLabel.getText()));
+		
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+		    @Override 
+		    public void run() {
+		    	dataManager.checkIfPlayerFinished(host, port, levelInfo);
+		    }
+		});
 	}
 	
 	private void onMouseClick(MouseEvent event) {
@@ -210,11 +224,18 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		Platform.runLater(()->
 		{
 			pipeDisplayer.setPipeData(levelInfo.getPipeGameBoard(), levelInfo.getNumberOfSteps());
+			timeNumberLabel.setText(Integer.toString(levelInfo.getTimeInSeconds()));
 			
 			Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
 			errorAlert.setHeaderText("Level have been loaded.");
 			errorAlert.setContentText("Click OK to continue");
 			errorAlert.showAndWait();
+			
+			if(!stopButton.isDisabled()) {
+				stop();
+			}
+			
+			dataManager.restartTimer(levelInfo.getTimeInSeconds());
 		});
 	}
 
@@ -270,6 +291,29 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		Platform.runLater(()->
 		{
 			timeNumberLabel.setText(Integer.toString(timeInSeconds));
+		});
+	}
+
+	@Override
+	public void isLevelFinished(boolean isFinished) {
+		String message;
+		
+		if (isFinished) {
+			message = "Level Finished!!!";
+
+			if(!stopButton.isDisabled()) {
+				stop();
+			}
+		}
+		else
+			message = "Level isn't Finished...";
+		
+		Platform.runLater(()->
+		{
+			Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+			errorAlert.setHeaderText(message);
+			errorAlert.setContentText("Click OK to continue");
+			errorAlert.showAndWait();
 		});
 	}
 }
