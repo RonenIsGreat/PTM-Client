@@ -47,15 +47,6 @@ public class MainWindowController implements Initializable, DataManagerListener{
 			{' ','J',' ',' '},
 	};
 
-    @FXML
-    void OnMessage(ActionEvent event) {
-
-    }
-
-    @FXML
-    void OnSettings(ActionEvent event) {
-
-    }
 
     @FXML
     void OnTheme(ActionEvent event) {
@@ -67,7 +58,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
     		stage.setScene(new Scene(root1));
     	//ThemeWindowController theme= (ThemeWindowController)fxmlLoader.getController();
     	//theme.playAudio1();
-    	//ThemeWindowController.mainWindow = borderPane;
+    	ThemeWindowController.mainWindow = borderPane;
     	
     		stage.show();
     		ThemeWindowController.mainWindow = borderPane;
@@ -79,7 +70,22 @@ public class MainWindowController implements Initializable, DataManagerListener{
     
     @FXML
     void OnTimeSteps(ActionEvent event) {
-
+    	try {
+    		FXMLLoader fxmlLoader =new FXMLLoader(getClass().getResource("/View/TimeSteps.fxml"));
+    		Parent root1= (Parent) fxmlLoader.load();
+    		Stage stage=new Stage();
+    		stage.setTitle("Time and Steps Window");
+    		stage.setScene(new Scene(root1));
+    	
+    	TimeStepsController.mainWindow = borderPane;
+    	
+    	
+    	
+    		stage.show();
+    		
+    	}catch(Exception e){
+    		System.out.println("c");
+    	}
     }
 	
 	@FXML
@@ -101,6 +107,7 @@ public class MainWindowController implements Initializable, DataManagerListener{
 	Label timeNumberLabel;
 	
 	@FXML
+	
 	Label stepsNumberLabel;
 	
 	@FXML
@@ -213,6 +220,9 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		{
 			pipeDisplayer.setPipeData(levelInfo.getPipeGameBoard(), levelInfo.getNumberOfSteps());
 			
+			ThemeWindowController theme =new ThemeWindowController();
+			theme.playAudio1();
+			
 			Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
 			errorAlert.setHeaderText("Level have been loaded.");
 			errorAlert.setContentText("Click OK to continue");
@@ -272,6 +282,10 @@ public class MainWindowController implements Initializable, DataManagerListener{
 		Platform.runLater(()->
 		{
 			timeNumberLabel.setText(Integer.toString(timeInSeconds));
-		});
+		});	
 	}
+	
+	//public  Label getSteps() {
+	//	return stepsNumberLabel;
+	//}
 }
