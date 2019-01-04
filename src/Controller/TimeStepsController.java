@@ -25,6 +25,6 @@ public class TimeStepsController {
 	}
 	
 	public StringProperty getStepsNumberLabelProperty() {
-		return timeNumberLabel.textProperty();
+		return stepsNumberLabel.textProperty();
 	}
 }
